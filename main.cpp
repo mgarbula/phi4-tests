@@ -8,14 +8,16 @@
 
 int main() {
     std::ofstream coronasFile;
+    std::string coronasDirectory = "/hac/storage/mgarbula/phi4-pliki/";
     std::string coronasFileName;
+    std::string pathToDir = 
     #ifdef _OPENMP
         std::cout << "using number of threads: " << std::getenv("OMP_NUM_THREADS") << std::endl;
         coronasFileName = "coronas_openmp.txt";
     #else
         coronasFileName = "coronas.txt";
     #endif
-    coronasFile.open(coronasFileName);
+    coronasFile.open(coronasDirectory + coronasFileName);
 
     std::cout << "Initialization of lattice ...\n";
     Lattice l(SIZE);

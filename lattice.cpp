@@ -3,6 +3,7 @@
 #include <chrono>
 #include <tuple>
 #include <omp.h>
+#include <complex>
 
 /**
  * Generates random 2D vector (for now its always the same for testing)
@@ -57,13 +58,6 @@ std::tuple<int, int, int, int> Lattice::neighoburs_01(int row, int column) {
     return t;
 }
 
-int Lattice::field(int x, int a) {
-    return x + a;
-}
-
-// for now dummy calculation to see if paralelization works
-// result is 8 * curr
-// TODO: calculate field properly
 /**
  * Calculates corona 01 at given position
  * @param int row
@@ -71,17 +65,17 @@ int Lattice::field(int x, int a) {
  */
 void Lattice::corona_01(int row, int column) {
     std::tuple<int, int, int, int> ns = neighoburs_01(row, column);
-    int corona = 0;
+    std::complex<double> corona = 0;
     int up = std::get<0>(ns);
     int down = std::get<1>(ns);
     int left = std::get<2>(ns);
     int right = std::get<3>(ns);
 
-    int curr = this->lattice[row][column].getValue();
-    corona += (field(curr, up) + field(curr, -up));
-    corona += (field(curr, down) + field(curr, -down));
-    corona += (field(curr, left) + field(curr, -left));
-    corona += (field(curr, right) + field(curr, -right));
+    std::complex<double> curr = this->lattice[row][column].getValue();
+    corona += this->lattice[row][up].getValue();
+    corona += this->lattice[row][down].getValue();
+    corona += this->lattice[column][left].getValue();
+    corona += this->lattice[column][right].getValue();
     this->lattice[row][column].setCorona01(corona);
 }
 

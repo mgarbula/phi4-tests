@@ -28,6 +28,6 @@ class Lattice {
         std::vector<std::vector<Cell>> lattice;
         int size;
         void corona_01(int, int);
-        int field(int, int);
+        // int field(int, int);
         std::tuple<int, int, int, int> neighoburs_01(int, int);
 };
