@@ -84,7 +84,7 @@ void Lattice::calculateCoronas() {
     int currEl = 0;
     while (currNum < 2) {
         for (int i = 0; i < this->size; i++) {
-            #pragma omp parallel for schedule(static, 10)
+            #pragma omp parallel for schedule(static, 200)
             for (int j = currEl; j < this->size; j+=2) {
                 this->corona_01(i, j);
             }

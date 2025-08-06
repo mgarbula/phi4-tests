@@ -7,17 +7,18 @@
 #define SIZE 10000 // lattice size
 
 int main() {
-    std::ofstream coronasFile;
-    std::string coronasDirectory = "/hac/storage/mgarbula/phi4-pliki/";
-    std::string coronasFileName;
-    std::string pathToDir = 
+    // std::ofstream coronasFile;
+    // std::string coronasDirectory = "/hac/storage/mgarbula/phi4-pliki/";
+    // std::string coronasFileName;
+    // std::string pathToDir = 
     #ifdef _OPENMP
         std::cout << "using number of threads: " << std::getenv("OMP_NUM_THREADS") << std::endl;
-        coronasFileName = "coronas_openmp.txt";
-    #else
-        coronasFileName = "coronas.txt";
     #endif
-    coronasFile.open(coronasDirectory + coronasFileName);
+    //     coronasFileName = "coronas_openmp.txt";
+    // #else
+    //     coronasFileName = "coronas.txt";
+    // #endif
+    // coronasFile.open(coronasDirectory + coronasFileName);
 
     std::cout << "Initialization of lattice ...\n";
     Lattice l(SIZE);
@@ -34,8 +35,8 @@ int main() {
     #else
         std::cout << "Duration of calculateCoronas() with one thread " << ms_int.count() << std::endl;
     #endif
-    std::cout << "Printing to file...\n";
-    l.print_coronas(coronasFile);
+    // std::cout << "Printing to file...\n";
+    // l.print_coronas(coronasFile);
     // l.print_nums();
     // printf("num = %d\n", l.lattice[3][5].getValue());
     // printf("cor = %d\n", l.lattice[3][5].getCorona());
