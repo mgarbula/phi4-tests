@@ -5,10 +5,11 @@ class Cell {
     public:
         /**
          * Constructs cell with value and number of lattice element
-         * @param int v - value
-         * @param int s - lattice element
+         * @param std::complex value
+         * @param int lattice element
          */
-        Cell(std::complex<double> v, std::complex<double> s) : value(v), subNum(s), corona01(0) {}
+        Cell() {}
+        Cell(std::complex<double> v, int s) : value(v), subNum(s), corona01(0) {}
         Cell(const Cell& c) : value(c.value), subNum(c.subNum) {}
         Cell& operator=(const Cell& c) {
             if (this != &c) {

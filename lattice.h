@@ -3,9 +3,10 @@
 #include <iostream>
 #include "cell.h"
 
+
 class Lattice {
     public:
-        Lattice(int);
+        Lattice(int, int);
         friend std::ostream& operator<<(std::ostream& str, Lattice const& l);
         void print_nums() {
             for (std::vector<Cell> row : this->lattice) {
@@ -23,7 +24,7 @@ class Lattice {
                 str << std::endl;
             }
         }
-        void calculateCoronas();
+        void calculateCoronas(int);
     private:
         std::vector<std::vector<Cell>> lattice;
         int size;

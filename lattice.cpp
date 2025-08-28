@@ -9,20 +9,21 @@
  * Generates random 2D vector (for now its always the same for testing)
  * @param int size - size int both dimensions
  */
-Lattice::Lattice(int size) {
+Lattice::Lattice(int size, int chunkSize) {
     this->size = size;
     this->lattice.resize(size);
 
-    const unsigned int fixedSeed = 12345;
-    std::mt19937 rng(fixedSeed);
-    std::uniform_int_distribution<int> dist(1, 10);
-
     int curr_elem = 0;
+    #pragma omp parallel for schedule(static, chunkSize)
     for (int i = 0; i < size; i++) {
-        this->lattice[i].reserve(size);
+        const unsigned int fixedSeed = 12345;
+        std::mt19937 rng(fixedSeed);
+        std::uniform_real_distribution<double> dist(1, 10);
+        this->lattice[i].resize(size, Cell());
         for (int j = 0; j < size; j++) {
-            curr_elem = (curr_elem + 1) % 2;
-            this->lattice[i].emplace_back(dist(rng), curr_elem);
+            curr_elem = (i + j) % 2;
+            std::complex<double> z(dist(rng), dist(rng));
+            this->lattice[i][j] = Cell(z, curr_elem);
         }
         if (!(size % 2)) {
             curr_elem += 1;
@@ -79,16 +80,18 @@ void Lattice::corona_01(int row, int column) {
     this->lattice[row][column].setCorona01(corona);
 }
 
-void Lattice::calculateCoronas() {
+void Lattice::calculateCoronas(int chunkSize) {
     int currNum = 0;
     int currEl = 0;
     while (currNum < 2) {
+        #pragma omp parallel for collapse(2) schedule(static, chunkSize)
         for (int i = 0; i < this->size; i++) {
-            #pragma omp parallel for schedule(static, 200)
             for (int j = currEl; j < this->size; j+=2) {
                 this->corona_01(i, j);
+                if (j == this->size - 1) {
+                    currEl = (currEl + 1) % 2;
+                }
             }
-            currEl = (currEl + 1) % 2;
         }
         currNum++;
     }
