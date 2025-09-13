@@ -41,6 +41,7 @@ It was tested on machine with 2 sockets, each with 16 threads (32 hyperthreads).
 
 To run use
 ```
+touch plots
 chmod +x run.sh
 ./run.sh
 ```

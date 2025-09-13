@@ -1,14 +1,36 @@
 #!/bin/bash
 
-threads_nums=(2 4 5 8 10 15 16 17 20 23 25 30 32)
+export SIZE=5000;
+
+FILE_NAME="plots/${SIZE}x${SIZE}.csv"
+PLOT_NAME="plots/${SIZE}x${SIZE}.png"
+
+touch $FILE_NAME
+echo "thread_num;time_1;time_2;time_3;time_4;time_5;avg;avg*thread_num" >> $FILE_NAME
+
+export OMP_PLACES=cores;
+export OMP_PROC_BIND=close;
+threads_nums=(1 2 4 5 8 10 15 16 17 20 23 25 30 32)
 
 for num_threads in "${threads_nums[@]}"
 do
     echo "Running with OMP_NUM_THREADS = $num_threads"
     export OMP_NUM_THREADS=$num_threads
 
-    ./main
+    ./main $FILE_NAME
     echo "=================================="
 done
 
-echo "Run finished"
+echo "Run finished. Creating plot"
+
+gnuplot << EOF
+    set datafile separator ";"
+    set terminal png size 800,600
+    set output "$PLOT_NAME"
+    set title "agvTime * threadsNum"
+    set xlabel "threadsNum"
+    set ylabel "total work"
+    plot "$FILE_NAME" using 1:8 with points
+EOF
+
+echo "Plot created"
