@@ -1,9 +1,9 @@
 #!/bin/bash
 
-export SIZE=5000;
+export SIZE=10000;
 
-FILE_NAME="plots/${SIZE}x${SIZE}.csv"
-PLOT_NAME="plots/${SIZE}x${SIZE}.png"
+FILE_NAME="plots/${SIZE}x${SIZE}_simd.csv"
+PLOT_NAME="plots/${SIZE}x${SIZE}_simd.png"
 
 touch $FILE_NAME
 echo "thread_num;time_1;time_2;time_3;time_4;time_5;avg;avg*thread_num" >> $FILE_NAME

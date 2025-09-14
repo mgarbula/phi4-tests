@@ -20,10 +20,10 @@ int main(int argc, char **argv) {
         threadNum = atoi(std::getenv("OMP_NUM_THREADS"));
         std::cout << "using number of threads: " << std::getenv("OMP_NUM_THREADS") << std::endl;
         chunkSize = int(SIZE / (2 * atoi(std::getenv("OMP_NUM_THREADS"))));
-        // coronasFileName = "coronas_openmp.txt";
+        // coronasFileName = "coronas_openmp_simd.txt";
     #else
         chunkSize = 0;
-        // coronasFileName = "coronas.txt";
+        // coronasFileName = "coronas_simd.txt";
     #endif
     // coronasFile.open(coronasDirectory + coronasFileName);
 
